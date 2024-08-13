@@ -1,4 +1,4 @@
-import { AlignmentType, HeadingLevel, Paragraph } from "docx";
+import { AlignmentType, HeadingLevel, Packer, Paragraph } from "docx";
 import headingsMonografia from "../data/monografia/headingsMonografia.js";
 import promptsMonografia from "../data/monografia/promptsMonografia.js";
 import headingsPreProjeto from "../data/preProjeto/headingsPreProjeto.js";
@@ -102,6 +102,8 @@ async function generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTra
 
     await gerarReferencias(headings);
     console.log('Referências geradas.');
+    const docFormatado = await formatar(sections)
+    return docFormatado
 }
 
 async function generateAsyncTcc(req, res) {
@@ -113,16 +115,24 @@ async function generateAsyncTcc(req, res) {
 
     try {
         generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa)
-            .then(() => {
+            .then(res => {
                 console.log('TCC gerado com sucesso. Enviando email...');
+                Packer.toBlob(res).then(async (blob) => {
+                    saveAs(blob, `./tccautomatico.docx`);
 
-                axios.post('https://server-saas-tcc.vercel.app/email/send-tcc', formData)
-                    .then(response => {
-                        console.log('Email enviado:', response.data);
-                    })
-                    .catch(error => {
-                        console.error('Erro ao enviar email:', error);
-                    });
+                    const formData = new FormData();
+                    formData.append('file', blob, 'tccautomatico.docx');
+                    formData.append('email', sessionStorage.getItem('email'))
+                    // Enviar o arquivo para o servidor
+                    await server.post('/email/send-tcc', formData)
+                        .then(response => response)
+                        .then(data => {
+                            console.log('Email enviado:', data);
+                        })
+                        .catch(error => {
+                            console.error('Erro ao enviar email:', error);
+                        });
+                });
             })
             .catch(err => {
                 console.error('Erro ao gerar TCC:', err);
