@@ -112,7 +112,7 @@ async function generateAsyncTcc(req, res) {
     const perguntaPesquisa = "Como o uso frequente das redes sociais afeta a autoestima, ansiedade e depressão em adolescentes, e quais estratégias podem ser utilizadas para minimizar possíveis impactos negativos na saúde mental desses jovens?"
 
     try {
-        await generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa)
+        generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa)
             .then(() => {
                 console.log('TCC gerado com sucesso. Enviando email...');
 
