@@ -8,8 +8,8 @@ export const generateSectionsTexts = async (prompts, headings, sections, referen
     try {
         console.log('Iniciando a geração dos textos das seções...');
 
-        //const res = await axios.post(`https://web-scraping-pa3r.onrender.com/referencias`, { temaTcc: tema });
-        //console.log('Referências obtidas:', res.data);
+        const res = await axios.post(`https://web-scraping-pa3r.onrender.com/referencias`, { temaTcc: tema });
+        console.log('Referências obtidas:', res.data);
 
         for (let i = 0; i < prompts.length; i++) {
             console.log(`Gerando texto para a seção ${i + 1} de ${prompts.length}...`);
@@ -22,7 +22,7 @@ export const generateSectionsTexts = async (prompts, headings, sections, referen
             let parts = [];
 
             // Gerando o texto por seção
-            const sectionText = await generateTextBySection(prompts[i], tema, areaEstudo, objetivo, perguntaPesquisa, 'file-uLpcKiQJHHkLifS8tqq82rQj');
+            const sectionText = await generateTextBySection(prompts[i], tema, areaEstudo, objetivo, perguntaPesquisa, res.data.fileId);
             console.log(`Texto da seção ${i + 1}:`, sectionText);
 
             const content = sectionText.replaceAll(String.fromCharCode(12304), "[[")
@@ -104,6 +104,7 @@ export const generateSectionsTexts = async (prompts, headings, sections, referen
         }
 
         // Limpa o arquivo gerado no OpenAI
+        await openai.files.del(res.data.fileId)
         console.log('Arquivo de referências excluído.');
 
     } catch (err) {

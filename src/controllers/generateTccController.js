@@ -120,11 +120,7 @@ async function generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTra
 }
 
 async function generateAsyncTcc(req, res) {
-
-    const tema = "A influência das redes sociais na saúde mental de adolescentes"
-    const areaEstudo = "Psicologia"
-    const objetivo = "Avaliar a influência das redes sociais na saúde mental dos adolescentes"
-    const perguntaPesquisa = "Como o uso frequente das redes sociais afeta a autoestima, ansiedade e depressão em adolescentes, e quais estratégias podem ser utilizadas para minimizar possíveis impactos negativos na saúde mental desses jovens?"
+    const { tema, areaEstudo, objetivo, perguntaPesquisa, email } = req.body
 
     try {
         generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa)
@@ -135,7 +131,7 @@ async function generateAsyncTcc(req, res) {
 
                     const formData = new FormData();
                     formData.append('file', blob, 'tccautomatico.docx');
-                    formData.append('email', 'ivanaires32@gmail.com')
+                    formData.append('email', email)
                     // Enviar o arquivo para o servidor
                     await axios.post('https://server-saas-tcc.vercel.app/email/send-tcc', formData)
                         .then(response => response)
