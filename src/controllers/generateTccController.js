@@ -105,8 +105,11 @@ async function generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTra
 }
 
 async function generateAsyncTcc(req, res) {
-    const { tema, areaEstudo, objetivo, perguntaPesquisa } = req.body;
-    console.log('Solicitação recebida para gerar TCC com os seguintes parâmetros:', { tema, areaEstudo, objetivo, perguntaPesquisa });
+
+    const tema = "A influência das redes sociais na saúde mental de adolescentes"
+    const areaEstudo = "Psicologia"
+    const objetivo = "Avaliar a influência das redes sociais na saúde mental dos adolescentes"
+    const perguntaPesquisa = "Como o uso frequente das redes sociais afeta a autoestima, ansiedade e depressão em adolescentes, e quais estratégias podem ser utilizadas para minimizar possíveis impactos negativos na saúde mental desses jovens?"
 
     try {
         await generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa)
