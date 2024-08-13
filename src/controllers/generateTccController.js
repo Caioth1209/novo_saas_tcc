@@ -13,9 +13,22 @@ import { ordenarReferencias } from "../utils/ordenarReferencias.js";
 import axios from "axios";
 import { generateSectionsTexts } from "../services/generateSectionsText.js";
 import { formatar } from "../utils/formatar.js";
+import pkg from "file-saver";
 
 let sections = [];
 const referencias = [];
+
+const removerPalavras = (referencia) => {
+
+    let palavrasParaRemover = ["referências bibliográficas", "referências", "Referências Bibliográficas", "Referências", "Bibliográficas", "bibliográficas", "bibliográficas:", "REFERÊNCIAS", "BIBLIOGRÁFICAS", "BIBLIOGRÁFICAS:"];
+
+    palavrasParaRemover.forEach((palavra) => {
+        referencia = referencia.replace(palavra, '');
+    });
+
+    return referencia;
+}
+
 
 const gerarReferencias = async (headings) => {
     console.log('Gerando referências...');
@@ -118,13 +131,13 @@ async function generateAsyncTcc(req, res) {
             .then(res => {
                 console.log('TCC gerado com sucesso. Enviando email...');
                 Packer.toBlob(res).then(async (blob) => {
-                    saveAs(blob, `./tccautomatico.docx`);
+                    pkg.saveAs(blob, `./tccautomatico.docx`);
 
                     const formData = new FormData();
                     formData.append('file', blob, 'tccautomatico.docx');
-                    formData.append('email', sessionStorage.getItem('email'))
+                    formData.append('email', 'ivanaires32@gmail.com')
                     // Enviar o arquivo para o servidor
-                    await server.post('/email/send-tcc', formData)
+                    await axios.post('https://server-saas-tcc.vercel.app/email/send-tcc', formData)
                         .then(response => response)
                         .then(data => {
                             console.log('Email enviado:', data);

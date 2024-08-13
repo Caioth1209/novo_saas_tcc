@@ -53,8 +53,6 @@ import { openai } from "./openai.js";
 
 
 export const generateTextBySection = async (prompt, tema, areaEstudo, objetivo, perguntaPesquisa, fileId) => {
-
-
   const thread = await openai.beta.threads.create();
 
   await openai.beta.threads.messages.create(
@@ -67,7 +65,7 @@ export const generateTextBySection = async (prompt, tema, areaEstudo, objetivo, 
   );
 
   let run;
-  let completed
+  let completed = false;
 
   try {
     run = await openai.beta.threads.runs.create(
@@ -83,25 +81,40 @@ export const generateTextBySection = async (prompt, tema, areaEstudo, objetivo, 
       if (statusRun.status === 'completed') {
         completed = true;
       } else if (statusRun.status === 'failed') {
-        await new Promise(resolve => setTimeout(resolve, 8000));
+        console.error('Execução falhou:', statusRun);
+        await new Promise(resolve => setTimeout(resolve, 8000)); // Espera antes de tentar novamente
         break;
       } else {
         console.log('Status atual da execução:', statusRun.status);
+        await new Promise(resolve => setTimeout(resolve, 7000)); // Espera antes de verificar novamente
       }
-
-      // sleep por 7 segundos
-      await new Promise(resolve => setTimeout(resolve, 7000));
     }
   } catch (error) {
     if (error.message.includes("rate_limit_exceeded")) {
-      console.error('Limite de cota excedido. Aguardando antes de tentar novamente...');
+      console.error('Limite de cota excedido. Aguardando antes de tentar novamente...', error);
     } else {
       console.error('Erro ao verificar o status:', error);
     }
   }
-  const messages = await openai.beta.threads.messages.list(thread.id);
-  let mensagens_assistant = messages.data.filter(objeto => objeto.role === 'assistant');
-  mensagens_assistant.reverse();
 
-  return mensagens_assistant[mensagens_assistant.length - 1].content[0].text.value;
-}
+  try {
+    const messages = await openai.beta.threads.messages.list(thread.id);
+    let mensagens_assistant = messages.data.filter(objeto => objeto.role === 'assistant');
+
+    if (mensagens_assistant.length === 0) {
+      throw new Error('Nenhuma mensagem do assistente encontrada.');
+    }
+
+    mensagens_assistant.reverse();
+    const lastMessage = mensagens_assistant[mensagens_assistant.length - 1];
+
+    if (!lastMessage || !lastMessage.content || !lastMessage.content[0] || !lastMessage.content[0].text || !lastMessage.content[0].text.value) {
+      throw new Error('Conteúdo da última mensagem do assistente não encontrado.');
+    }
+
+    return lastMessage.content[0].text.value;
+  } catch (error) {
+    console.error('Erro ao obter mensagens do assistente:', error);
+    throw error;
+  }
+};

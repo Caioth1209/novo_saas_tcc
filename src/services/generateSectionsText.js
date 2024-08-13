@@ -23,19 +23,28 @@ export const generateSectionsTexts = async (prompts, headings, sections, referen
 
             // Gerando o texto por seção
             const sectionText = await generateTextBySection(prompts[i], tema, areaEstudo, objetivo, perguntaPesquisa, 'file-uLpcKiQJHHkLifS8tqq82rQj');
-            console.log('Texto gerado para a seção:', sectionText);
+            console.log(`Texto da seção ${i + 1}:`, sectionText);
 
             const content = sectionText.replaceAll(String.fromCharCode(12304), "[[")
                 .replaceAll(String.fromCharCode(12305), "]]")
                 .replaceAll(/\[\[.*?\]\]/g, '');
 
-            if (content) {
+            console.log(`Conteúdo limpo da seção ${i + 1}:`, content);
+            if (!sectionText) {
+                console.error(`Erro: texto da seção ${i + 1} é undefined.`);
+                continue; // Pule para a próxima seção
+            } else if (!content) {
+                console.error(`Erro: conteúdo da seção ${i + 1} é undefined ou vazio.`);
+                continue; // Pule para a próxima seção
+            } else if (content) {
                 if (prompts[i].hasReferences) {
                     parts = content.split('\\r');
-                    paragraphs = parts[0].split('\n');
-                    parts[1].split('\n').forEach((referencia) => {
-                        referencias.push(referencia);
-                    });
+                    paragraphs = parts[0] ? parts[0].split('\\n') : [];
+                    if (parts[1]) {
+                        parts[1].split('\\n').forEach((referencia) => {
+                            referencias.push(referencia);
+                        });
+                    }
                     console.log('Referências adicionadas:', referencias);
                 } else {
                     paragraphs = content.split('\\n');
@@ -91,6 +100,7 @@ export const generateSectionsTexts = async (prompts, headings, sections, referen
             } else {
                 console.warn(`Nenhum conteúdo gerado para a seção ${i + 1}.`);
             }
+
         }
 
         // Limpa o arquivo gerado no OpenAI
