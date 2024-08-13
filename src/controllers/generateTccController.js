@@ -120,10 +120,10 @@ async function generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTra
 }
 
 async function generateAsyncTcc(req, res) {
-    const { tema, areaEstudo, objetivo, perguntaPesquisa, email } = req.body
+    const { tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho, email } = req.body
 
     try {
-        generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa)
+        generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho)
             .then(res => {
                 console.log('TCC gerado com sucesso. Enviando email...');
                 Packer.toBlob(res).then(async (blob) => {
