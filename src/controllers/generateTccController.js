@@ -15,12 +15,11 @@ import { generateSectionsTexts } from "../services/generateSectionsText.js";
 import { formatar } from "../utils/formatar.js";
 import pkg from "file-saver";
 
-let sections = [];
 const referencias = [];
 
 const removerPalavras = (referencia) => {
 
-    let palavrasParaRemover = ["referências bibliográficas", "referências", "Referências Bibliográficas", "Referências", "Bibliográficas", "bibliográficas", "bibliográficas:", "REFERÊNCIAS", "BIBLIOGRÁFICAS", "BIBLIOGRÁFICAS:"];
+    let palavrasParaRemover = ["referências bibliográficas", "referências", "Referências Bibliográficas", "Referências", "Bibliográficas", "bibliográficas", "bibliográficas:", "REFERÊNCIAS", "BIBLIOGRÁFICAS", "BIBLIOGRÁFICAS:", "****"];
 
     palavrasParaRemover.forEach((palavra) => {
         referencia = referencia.replace(palavra, '');
@@ -30,7 +29,7 @@ const removerPalavras = (referencia) => {
 }
 
 
-const gerarReferencias = async (headings) => {
+const gerarReferencias = async (headings, sections) => {
     console.log('Gerando referências...');
 
     let referenciasFiltradas = referencias.map(removerPalavras);
@@ -82,7 +81,7 @@ const gerarReferencias = async (headings) => {
     console.log('Referências adicionadas à seção.');
 };
 
-async function generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho) {
+async function generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho, sections) {
     console.log(`Gerando TCC: ${tipoTrabalho}`);
 
     let promptsAtual;
@@ -90,47 +89,43 @@ async function generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTra
     let headings = tipoTrabalho == 'preProjeto' ? headingsPreProjeto : headingsMonografia;
 
     await gerarCapa(sections);
-    console.log('Capa gerada.');
 
     await gerarFolhaDeRosto(sections);
-    console.log('Folha de Rosto gerada.');
 
     await gerarFolhaDeAvaliacao(sections);
-    console.log('Folha de Avaliação gerada.');
 
     await gerarDedicatoria(sections);
-    console.log('Dedicatoria gerada.');
 
     await gerarAgradecimentos(sections);
-    console.log('Agradecimentos gerados.');
 
     await gerarSumario(sections, headings);
-    console.log('Sumário gerado.');
 
     if (tipoTrabalho == 'preProjeto') promptsAtual = promtpsPreProjeto;
     else promptsAtual = promptsMonografia;
 
     await generateSectionsTexts(promptsAtual, headings, sections, referencias, tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho);
-    console.log('Seções geradas.');
 
-    await gerarReferencias(headings);
+    await gerarReferencias(headings, sections);
     console.log('Referências geradas.');
     const docFormatado = await formatar(sections)
+    sections = []
     return docFormatado
 }
 
 async function generateAsyncTcc(req, res) {
     const { tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho, email } = req.body
 
+    let sections = []
+
     try {
-        generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho)
+        generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho, sections)
             .then(res => {
                 console.log('TCC gerado com sucesso. Enviando email...');
                 Packer.toBlob(res).then(async (blob) => {
-                    pkg.saveAs(blob, `./tccautomatico.docx`);
+                    pkg.saveAs(blob, `./tccturbo.docx`);
 
                     const formData = new FormData();
-                    formData.append('file', blob, 'tccautomatico.docx');
+                    formData.append('file', blob, 'tccturbo.docx');
                     formData.append('email', email)
                     // Enviar o arquivo para o servidor
                     await axios.post('https://server-saas-tcc.vercel.app/email/send-tcc', formData)
@@ -141,6 +136,8 @@ async function generateAsyncTcc(req, res) {
                         .catch(error => {
                             console.error('Erro ao enviar email:', error);
                         });
+
+                    sections = []
                 });
             })
             .catch(err => {
