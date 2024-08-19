@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import generateRoute from './routes/index.js';
+import routes from './routes/index.js';
 
 dotenv.config()
 
@@ -13,6 +13,6 @@ app.use(cors())
 app.get('/health', (req, res) => {
     return res.send('OK!')
 })
-app.use('/generate', generateRoute)
+app.use('/payment', routes)
 
 export default app

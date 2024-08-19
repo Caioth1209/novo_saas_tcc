@@ -14,6 +14,7 @@ import axios from "axios";
 import { generateSectionsTexts } from "../services/generateSectionsText.js";
 import { formatar } from "../utils/formatar.js";
 import pkg from "file-saver";
+import {adminApp} from '../services/firebaseAdmin.js';
 
 const referencias = [];
 
@@ -86,7 +87,7 @@ async function generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTra
 
     let promptsAtual;
 
-    let headings = tipoTrabalho == 'preProjeto' ? headingsPreProjeto : headingsMonografia;
+    let headings = headingsMonografia;
 
     await gerarCapa(sections);
 
@@ -100,8 +101,10 @@ async function generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTra
 
     await gerarSumario(sections, headings);
 
-    if (tipoTrabalho == 'preProjeto') promptsAtual = promtpsPreProjeto;
-    else promptsAtual = promptsMonografia;
+    // if (tipoTrabalho == 'preProjeto') promptsAtual = promtpsPreProjeto;
+    // else promptsAtual = promptsMonografia;
+
+    promptsAtual = promptsMonografia;
 
     await generateSectionsTexts(promptsAtual, headings, sections, referencias, tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho);
 
@@ -113,12 +116,22 @@ async function generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTra
 }
 
 async function generateAsyncTcc(req, res) {
-    const { tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho, email } = req.body
-
-    let sections = []
 
     try {
-        generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho, sections)
+
+        const email = req.email
+
+        let sections = []
+
+        const docSnapshot = await adminApp.firestore().collection("orders").doc(email).get()
+
+        if(!docSnapshot.exists){
+            return res.status(200).json({message: "nao existe no email"})
+        }
+
+        const {tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho} = docSnapshot.data()
+
+        await generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho, sections)
             .then(res => {
                 console.log('TCC gerado com sucesso. Enviando email...');
                 Packer.toBlob(res).then(async (blob) => {
@@ -144,10 +157,10 @@ async function generateAsyncTcc(req, res) {
                 console.error('Erro ao gerar TCC:', err);
             });
 
-        res.send('OK!');
+            res.status(200).send({ message: 'ok' });
     } catch (error) {
         console.error('Erro ao processar solicitação:', error);
-        res.status(500).send({ error });
+        res.status(200).send({ error });
     }
 }
 
