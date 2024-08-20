@@ -15,6 +15,7 @@ import { generateSectionsTexts } from "../services/generateSectionsText.js";
 import { formatar } from "../utils/formatar.js";
 import pkg from "file-saver";
 import { adminApp } from '../services/firebaseAdmin.js';
+import { sendAwaitTcc, sendTcc } from "../utils/sendEmail.js";
 
 const referencias = [];
 
@@ -131,31 +132,30 @@ async function generateAsyncTcc(req, res) {
 
         const { tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho } = docSnapshot.data()
 
+        if (!tema || !areaEstudo || !objetivo || !perguntaPesquisa || !tipoTrabalho) return res.status(400).send("Dados invalidos")
+
         generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho, sections)
             .then(res => {
                 console.log('TCC gerado com sucesso. Enviando email...');
                 Packer.toBlob(res).then(async (blob) => {
                     pkg.saveAs(blob, `./tccturbo.docx`);
-
-                    const formData = new FormData();
-                    formData.append('file', blob, 'tccturbo.docx');
-                    formData.append('email', email)
-                    // Enviar o arquivo para o servidor
-                    await axios.post('https://server-saas-tcc.vercel.app/email/send-tcc', formData)
-                        .then(response => response)
-                        .then(data => {
-                            console.log('Email enviado:', data);
-                        })
-                        .catch(error => {
-                            console.error('Erro ao enviar email:', error);
-                        });
-
+                    await sendTcc(blob, email)
+                    await adminApp.firestore().collection("orders").doc(email).set({
+                        tema,
+                        areaEstudo,
+                        objetivo,
+                        perguntaPesquisa,
+                        tipoTrabalho,
+                        pagamento: true
+                    })
                     sections = []
                 });
             })
             .catch(err => {
                 console.error('Erro ao gerar TCC:', err);
             });
+
+        sendAwaitTcc(email)
 
         res.status(200).send({ message: 'ok' });
     } catch (error) {
