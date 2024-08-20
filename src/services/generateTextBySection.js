@@ -85,7 +85,6 @@ export const generateTextBySection = async (prompt, tema, areaEstudo, objetivo, 
         await new Promise(resolve => setTimeout(resolve, 8000)); // Espera antes de tentar novamente
         break;
       } else {
-        console.log('Status atual da execução:', statusRun.status);
         await new Promise(resolve => setTimeout(resolve, 7000)); // Espera antes de verificar novamente
       }
     }

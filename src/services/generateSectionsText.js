@@ -38,7 +38,6 @@ export const generateSectionsTexts = async (prompts, headings, sections, referen
                             referencias.push(referencia);
                         });
                     }
-                    console.log('Referências adicionadas:', referencias);
                 } else {
                     paragraphs = content.split('\\n');
                 }
