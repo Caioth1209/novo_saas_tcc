@@ -130,11 +130,11 @@ async function generateAsyncTcc(req, res) {
             return res.status(200).json({ message: "nao existe no email" })
         }
 
-        const { tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho } = docSnapshot.data()
+        const { tema, areaEstudo, objetivo, perguntaPesquisa, } = docSnapshot.data()
 
-        if (!tema || !areaEstudo || !objetivo || !perguntaPesquisa || !tipoTrabalho) return res.status(400).send("Dados invalidos")
+        if (!tema || !areaEstudo || !objetivo || !perguntaPesquisa) return res.status(400).send("Dados invalidos")
 
-        generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho, sections)
+        generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, "monografia", sections)
             .then(res => {
                 console.log('TCC gerado com sucesso. Enviando email...');
                 Packer.toBlob(res).then(async (blob) => {
@@ -145,7 +145,6 @@ async function generateAsyncTcc(req, res) {
                         areaEstudo,
                         objetivo,
                         perguntaPesquisa,
-                        tipoTrabalho,
                         pagamento: true
                     })
                     sections = []
