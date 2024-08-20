@@ -14,7 +14,7 @@ import axios from "axios";
 import { generateSectionsTexts } from "../services/generateSectionsText.js";
 import { formatar } from "../utils/formatar.js";
 import pkg from "file-saver";
-import {adminApp} from '../services/firebaseAdmin.js';
+import { adminApp } from '../services/firebaseAdmin.js';
 
 const referencias = [];
 
@@ -125,13 +125,13 @@ async function generateAsyncTcc(req, res) {
 
         const docSnapshot = await adminApp.firestore().collection("orders").doc(email).get()
 
-        if(!docSnapshot.exists){
-            return res.status(200).json({message: "nao existe no email"})
+        if (!docSnapshot.exists) {
+            return res.status(200).json({ message: "nao existe no email" })
         }
 
-        const {tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho} = docSnapshot.data()
+        const { tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho } = docSnapshot.data()
 
-        await generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho, sections)
+        generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho, sections)
             .then(res => {
                 console.log('TCC gerado com sucesso. Enviando email...');
                 Packer.toBlob(res).then(async (blob) => {
@@ -157,7 +157,7 @@ async function generateAsyncTcc(req, res) {
                 console.error('Erro ao gerar TCC:', err);
             });
 
-            res.status(200).send({ message: 'ok' });
+        res.status(200).send({ message: 'ok' });
     } catch (error) {
         console.error('Erro ao processar solicitação:', error);
         res.status(200).send({ error });
