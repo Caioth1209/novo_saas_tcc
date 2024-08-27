@@ -15,8 +15,7 @@ export default [
             Usando \\n entre cada parágrafo do texto.
             Usando \\r antes da seção de referências bibliográficas.
             Usando \\n entre cada referência bibliográfica.
-            IMPORTANTE: SEMPRE cite as refencias no do texto.
-            IMPORTANTE: SEMPRE use as referencias do arquivo anexado.`
+            IMPORTANTE: SEMPRE cite as refencias no do texto.`
         },
         hasReferences: true,
         isContinuation: false
@@ -29,8 +28,7 @@ export default [
             Usando \\n entre cada parágrafo do texto.
             Usando \\r antes da seção de referências bibliográficas.
             Usando \\n entre cada referência bibliográfica.
-            IMPORTANTE: SEMPRE cite as refencias no do texto.
-            IMPORTANTE: SEMPRE use as referencias do arquivo anexado.`
+            IMPORTANTE: SEMPRE cite as refencias no do texto.`
         },
         hasReferences: true,
         isContinuation: true
@@ -42,8 +40,7 @@ export default [
             Usando \\n entre cada parágrafo do texto.
             Usando \\r antes da seção de referências bibliográficas.
             Usando \\n entre cada referência bibliográfica.
-            IMPORTANTE: SEMPRE cite as refencias no do texto.
-            IMPORTANTE: SEMPRE use as referencias do arquivo anexado.`;
+            IMPORTANTE: SEMPRE cite as refencias no do texto.`;
         },
         hasReferences: true,
         isContinuation: false
@@ -55,8 +52,7 @@ export default [
             Usando \\n entre cada parágrafo do texto.
             Usando \\r antes da seção de referências bibliográficas.
             Usando \\n entre cada referência bibliográfica.
-            IMPORTANTE: SEMPRE cite as refencias no do texto.
-            IMPORTANTE: SEMPRE use as referencias do arquivo anexado.`;
+            IMPORTANTE: SEMPRE cite as refencias no do texto.`;
         },
         hasReferences: true,
         isContinuation: true
@@ -68,8 +64,7 @@ export default [
             Usando \\n entre cada parágrafo do texto.
             Usando \\r antes da seção de referências bibliográficas.
             Usando \\n entre cada referência bibliográfica.
-            IMPORTANTE: SEMPRE cite as refencias no do texto.
-            IMPORTANTE: SEMPRE use as referencias do arquivo anexado.`;
+            IMPORTANTE: SEMPRE cite as refencias no do texto.`;
         },
         hasReferences: true,
         isContinuation: true
@@ -81,8 +76,7 @@ export default [
             Usando \\n entre cada parágrafo do texto.
             Usando \\r antes da seção de referências bibliográficas.
             Usando \\n entre cada referência bibliográfica.
-            IMPORTANTE: SEMPRE cite as refencias no do texto.
-            IMPORTANTE: SEMPRE use as referencias do arquivo anexado.`;
+            IMPORTANTE: SEMPRE cite as refencias no do texto.`;
         },
         hasReferences: true,
         isContinuation: false
@@ -94,8 +88,7 @@ export default [
             Usando \\n entre cada parágrafo do texto.
             Usando \\r antes da seção de referências bibliográficas.
             Usando \\n entre cada referência bibliográfica.
-            IMPORTANTE: SEMPRE cite as refencias no do texto.
-            IMPORTANTE: SEMPRE use as referencias do arquivo anexado.`;
+            IMPORTANTE: SEMPRE cite as refencias no do texto.`;
         },
         hasReferences: true,
         isContinuation: false
@@ -107,8 +100,7 @@ export default [
             Usando \\n entre cada parágrafo do texto.
             Usando \\r antes da seção de referências bibliográficas.
             Usando \\n entre cada referência bibliográfica.
-            IMPORTANTE: SEMPRE cite as refencias no do texto.
-            IMPORTANTE: SEMPRE use as referencias do arquivo anexado.`;
+            IMPORTANTE: SEMPRE cite as refencias no do texto.`;
         },
         hasReferences: true,
         isContinuation: true
@@ -120,8 +112,7 @@ export default [
             Usando \\n entre cada parágrafo do texto.
             Usando \\r antes da seção de referências bibliográficas.
             Usando \\n entre cada referência bibliográfica.
-            IMPORTANTE: SEMPRE cite as refencias no do texto.
-            IMPORTANTE: SEMPRE use as referencias do arquivo anexado.`;
+            IMPORTANTE: SEMPRE cite as refencias no do texto.`;
         },
         hasReferences: true,
         isContinuation: true
@@ -133,8 +124,7 @@ export default [
             Usando \\n entre cada parágrafo do texto.
             Usando \\r antes da seção de referências bibliográficas.
             Usando \\n entre cada referência bibliográfica.
-            IMPORTANTE: SEMPRE cite as refencias no do texto.
-            IMPORTANTE: SEMPRE use as referencias do arquivo anexado.`;
+            IMPORTANTE: SEMPRE cite as refencias no do texto.`;
         },
         hasReferences: true,
         isContinuation: false
@@ -146,8 +136,7 @@ export default [
             Usando \\n entre cada parágrafo do texto.
             Usando \\r antes da seção de referências bibliográficas.
             Usando \\n entre cada referência bibliográfica.
-            IMPORTANTE: SEMPRE cite as refencias no do texto.
-            IMPORTANTE: SEMPRE use as referencias do arquivo anexado.`;
+            IMPORTANTE: SEMPRE cite as refencias no do texto.`;
         },
         hasReferences: true,
         isContinuation: true
@@ -159,8 +148,7 @@ export default [
             Usando \\n entre cada parágrafo do texto.
             Usando \\r antes da seção de referências bibliográficas.
             Usando \\n entre cada referência bibliográfica.
-            IMPORTANTE: SEMPRE cite as refencias no do texto.
-            IMPORTANTE: SEMPRE use as referencias do arquivo anexado.`;
+            IMPORTANTE: SEMPRE cite as refencias no do texto.`;
         },
         hasReferences: true,
         isContinuation: true

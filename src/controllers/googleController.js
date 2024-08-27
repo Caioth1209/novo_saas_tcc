@@ -26,13 +26,13 @@ async function updateSheetNewUser(req, res) {
                 return;
             })
             .catch((err) => {
-                console.log(err);
+                console.log(err.response.data);
                 return;
             });
 
         res.status(201).send('Ok')
     } catch (err) {
-        console.log(err);
+        console.log(err.message);
         return res.status(500).send(err)
     }
 }

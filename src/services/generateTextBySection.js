@@ -60,7 +60,7 @@ export const generateTextBySection = async (prompt, tema, areaEstudo, objetivo, 
     {
       role: "user",
       content: prompt.get(tema, areaEstudo, objetivo, perguntaPesquisa),
-      attachments: [{ file_id: fileId, tools: [{ type: "file_search" }] }]
+      //attachments: [{ file_id: fileId, tools: [{ type: "file_search" }] }]
     }
   );
 
@@ -85,6 +85,8 @@ export const generateTextBySection = async (prompt, tema, areaEstudo, objetivo, 
         await new Promise(resolve => setTimeout(resolve, 8000)); // Espera antes de tentar novamente
         break;
       } else {
+        console.log(statusRun.status);
+
         await new Promise(resolve => setTimeout(resolve, 7000)); // Espera antes de verificar novamente
       }
     }
