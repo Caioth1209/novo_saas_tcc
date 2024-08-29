@@ -4,5 +4,6 @@ import paymentController from '../controllers/paymentController.js'
 const generateRoute = Router()
 
 generateRoute.post('/tcc', paymentController.webhookGuru, generateController.generateAsyncTcc);
+generateRoute.post('/promocao', generateController.tccPromocao)
 
 export default generateRoute

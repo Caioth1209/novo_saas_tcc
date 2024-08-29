@@ -127,12 +127,21 @@ async function generateAsyncTcc(req, res) {
         const docSnapshot = await adminApp.firestore().collection("orders").doc(email).get()
 
         if (!docSnapshot.exists) {
-            return res.status(200).json({ message: "nao existe no email" })
+            await adminApp.firestore().collection("orders").doc(email).set({
+                pagamento: true,
+                gerouTcc: false,
+                created_at: new Date()
+            })
+            return res.status(201).send("Dados registrados")
         }
 
-        const { tema, areaEstudo, objetivo, perguntaPesquisa, } = docSnapshot.data()
+        const { tema, areaEstudo, objetivo, perguntaPesquisa, gerouTcc } = docSnapshot.data()
 
-        if (!tema || !areaEstudo || !objetivo || !perguntaPesquisa) return res.status(400).send("Dados invalidos")
+        if (!tema || !areaEstudo || !objetivo || !perguntaPesquisa) {
+            return res.status(400).send("Dados invalidos")
+        } else if (gerouTcc) {
+            return res.status(400).send("Este Trabalho Ja foi gerado")
+        }
 
         generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, "monografia", sections)
             .then(res => {
@@ -142,7 +151,8 @@ async function generateAsyncTcc(req, res) {
                     await sendTcc(blob, email)
                     await adminApp.firestore().collection("orders").doc(email).set({
                         ...docSnapshot.data(),
-                        pagamento: true
+                        pagamento: false,
+                        gerouTcc: true
                     })
                     sections = []
                 });
@@ -160,6 +170,48 @@ async function generateAsyncTcc(req, res) {
     }
 }
 
-const generateController = { generateAsyncTcc };
+async function tccPromocao(req, res) {
+    const { email } = req.body
+
+    let sections = []
+
+    const docSnapshot = await adminApp.firestore().collection("orders").doc(email).get()
+
+    if (!docSnapshot.exists) return res.status(200).json({ message: "nao existe no email" })
+    else if (!docSnapshot.data().pagamento) return res.status(200).json({ message: "Pagamento não realizado" })
+    else if (docSnapshot.data().gerouTcc) return res.status(200).json({ message: "Este trabalho já foi gerado" })
+
+    const { tema, areaEstudo, objetivo, perguntaPesquisa } = docSnapshot.data()
+
+    if (!tema || !areaEstudo || !objetivo || !perguntaPesquisa) {
+        return res.status(400).send("Dados invalidos")
+    }
+
+
+    generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, "monografia", sections)
+        .then(res => {
+            console.log('TCC gerado com sucesso. Enviando email...');
+            Packer.toBlob(res).then(async (blob) => {
+                pkg.saveAs(blob, `./tccturbo.docx`);
+                await sendTcc(blob, email)
+                await adminApp.firestore().collection("orders").doc(email).set({
+                    ...docSnapshot.data(),
+                    pagamento: false,
+                    gerouTcc: true
+                })
+                sections = []
+            });
+        })
+        .catch(err => {
+            console.error('Erro ao gerar TCC:', err);
+        });
+
+    sendAwaitTcc(email)
+
+    res.status(200).send({ message: 'ok' });
+
+}
+
+const generateController = { generateAsyncTcc, tccPromocao };
 
 export default generateController;
