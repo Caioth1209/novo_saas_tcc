@@ -119,7 +119,6 @@ async function generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTra
 async function generateAsyncTcc(req, res) {
 
     try {
-
         const email = req.email
 
         let sections = []
@@ -150,7 +149,6 @@ async function generateAsyncTcc(req, res) {
                     pkg.saveAs(blob, `./tccturbo.docx`);
                     await sendTcc(blob, email)
                     await adminApp.firestore().collection("orders").doc(email).set({
-                        ...docSnapshot.data(),
                         pagamento: false,
                         gerouTcc: true
                     })

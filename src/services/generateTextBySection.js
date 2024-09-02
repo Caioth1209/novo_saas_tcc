@@ -60,7 +60,7 @@ export const generateTextBySection = async (prompt, tema, areaEstudo, objetivo, 
     {
       role: "user",
       content: prompt.get(tema, areaEstudo, objetivo, perguntaPesquisa),
-      //attachments: [{ file_id: fileId, tools: [{ type: "file_search" }] }]
+      attachments: [{ file_id: fileId, tools: [{ type: "file_search" }] }]
     }
   );
 
