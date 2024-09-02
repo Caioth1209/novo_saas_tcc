@@ -137,7 +137,7 @@ async function generateAsyncTcc(req, res) {
         const { tema, areaEstudo, objetivo, perguntaPesquisa, gerouTcc } = docSnapshot.data()
 
         if (!tema || !areaEstudo || !objetivo || !perguntaPesquisa) {
-            return res.status(400).send("Dados invalidossssssssssss")
+            return res.status(400).send("Dados invalidos")
         } else if (gerouTcc) {
             return res.status(400).send("Este Trabalho Ja foi gerado")
         }
