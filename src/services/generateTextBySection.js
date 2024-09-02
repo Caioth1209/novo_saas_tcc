@@ -52,8 +52,7 @@ import { openai } from "./openai.js";
 // }
 
 
-export const generateTextBySection = async (prompt, tema, areaEstudo, objetivo, perguntaPesquisa, fileId) => {
-  const thread = await openai.beta.threads.create();
+export const generateTextBySection = async (prompt, tema, areaEstudo, objetivo, perguntaPesquisa, fileId, thread) => {
 
   await openai.beta.threads.messages.create(
     thread.id,
