@@ -6,8 +6,9 @@ import { openai } from "./openai.js";
 
 export const generateSectionsTexts = async (prompts, headings, sections, referencias, tema, areaEstudo, objetivo, perguntaPesquisa) => {
     try {
-        //const res = await axios.post(`https://web-scraping-pa3r.onrender.com/referencias`, { temaTcc: tema });
-        //const fileId = res.data.fileId
+        const res = await axios.post(`https://web-scraping-pa3r.onrender.com/referencias`, { temaTcc: tema });
+        const fileId = res.data.fileId
+        const thread = await openai.beta.threads.create();
 
         for (let i = 0; i < prompts.length; i++) {
             await new Promise(resolve => setTimeout(resolve, 1000));
@@ -17,7 +18,7 @@ export const generateSectionsTexts = async (prompts, headings, sections, referen
             let parts = [];
 
             // Gerando o texto por seção
-            const sectionText = await generateTextBySection(prompts[i], tema, areaEstudo, objetivo, perguntaPesquisa);
+            const sectionText = await generateTextBySection(prompts[i], tema, areaEstudo, objetivo, perguntaPesquisa, fileId, thread);
 
             const content = sectionText.replaceAll(String.fromCharCode(12304), "[[")
                 .replaceAll(String.fromCharCode(12305), "]]")
@@ -95,7 +96,7 @@ export const generateSectionsTexts = async (prompts, headings, sections, referen
         }
 
         // Limpa o arquivo gerado no OpenAI
-        //await openai.files.del(fileId)
+        await openai.files.del(fileId)
 
     } catch (err) {
         console.error('Erro na geração dos textos das seções:', err);

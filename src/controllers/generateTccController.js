@@ -119,7 +119,6 @@ async function generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTra
 async function generateAsyncTcc(req, res) {
 
     try {
-
         const email = req.email
 
         let sections = []

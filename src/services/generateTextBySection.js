@@ -52,15 +52,14 @@ import { openai } from "./openai.js";
 // }
 
 
-export const generateTextBySection = async (prompt, tema, areaEstudo, objetivo, perguntaPesquisa, fileId) => {
-  const thread = await openai.beta.threads.create();
+export const generateTextBySection = async (prompt, tema, areaEstudo, objetivo, perguntaPesquisa, fileId, thread) => {
 
   await openai.beta.threads.messages.create(
     thread.id,
     {
       role: "user",
       content: prompt.get(tema, areaEstudo, objetivo, perguntaPesquisa),
-      //attachments: [{ file_id: fileId, tools: [{ type: "file_search" }] }]
+      attachments: [{ file_id: fileId, tools: [{ type: "file_search" }] }]
     }
   );
 
