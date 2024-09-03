@@ -40,17 +40,25 @@ const gerarReferencias = async (headings, sections) => {
     let referenciasOrdenadas = ordenarReferencias(referenciasFiltradas);
     console.log('Referências ordenadas:', referenciasOrdenadas);
 
-    // Cria um array de parágrafos formatados
-    const formattedParagraphs = referenciasOrdenadas.map((paragraphText) => {
-        return new Paragraph({
-            text: paragraphText,
-            alignment: AlignmentType.JUSTIFIED,
-            heading: HeadingLevel.HEADING_4,
-            indent: {
-                firstLine: '2cm'
-            },
-        });
-    });
+    const refCount = []
+    const formattedParagraphs = []
+    for (let i = 0; i < referenciasOrdenadas.length; i++) {
+        const element = referenciasOrdenadas[i];
+        const ref = element.split('\n')
+        ref.map(el => {
+            if (el != '' && !refCount.includes(el)) {
+                refCount.push(el)
+                formattedParagraphs.push(new Paragraph({
+                    text: el.trim(),
+                    alignment: AlignmentType.JUSTIFIED,
+                    heading: HeadingLevel.HEADING_4,
+                    indent: {
+                        firstLine: '2cm'
+                    },
+                }))
+            }
+        })
+    }
 
     // Adiciona o título da seção
     const sectionChildren = [

@@ -8,6 +8,7 @@ export const generateSectionsTexts = async (prompts, headings, sections, referen
     try {
         const res = await axios.post(`https://web-scraping-pa3r.onrender.com/referencias`, { temaTcc: tema });
         const fileId = res.data.fileId
+
         const thread = await openai.beta.threads.create();
 
         for (let i = 0; i < prompts.length; i++) {
