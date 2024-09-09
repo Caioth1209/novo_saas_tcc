@@ -2,14 +2,16 @@ import sheetsApi from "../services/sheetsApi.js";
 
 async function updateSheetNewUser(req, res) {
     try {
-        const { name, email, telefone } = req.body;
+        const { name, email, telefone, pagamento } = req.body;
+
+        const payment = pagamento ? 'Confirmado' : 'Ainda não pago'
 
         const range = 'A:E';
         const valueInputOption = 'USER_ENTERED';
         const insertDataOption = 'INSERT_ROWS';
         const valueRange = {
             values: [
-                [name, email, telefone,]
+                [name, email, telefone, payment]
             ],
         };
 
