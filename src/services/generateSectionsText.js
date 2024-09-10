@@ -32,15 +32,15 @@ export const generateSectionsTexts = async (prompts, headings, sections, referen
                 continue; // Pule para a próxima seção
             } else if (content) {
                 if (prompts[i].hasReferences) {
-                    parts = content.split('\\r');
-                    paragraphs = parts[0] ? parts[0].split('\\n') : [];
+                    parts = content.split('[r]');
+                    paragraphs = parts[0] ? parts[0].split(parts[0].includes('[--]') ? '[--]' : '--') : [];
                     if (parts[1]) {
-                        parts[1].split('\\n').forEach((referencia) => {
+                        parts[1].split(parts[1].includes('[--]') ? '[--]' : '--').forEach((referencia) => {
                             referencias.push(referencia);
                         });
                     }
                 } else {
-                    paragraphs = content.split('\\n');
+                    paragraphs = content.split(content.includes('[--]') ? '[--]' : '--');
                 }
 
                 if (!prompts[i].isContinuation) {

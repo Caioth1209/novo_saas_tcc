@@ -32,25 +32,33 @@ const removerPalavras = (referencia) => {
 
 
 const gerarReferencias = async (headings, sections) => {
-    console.log('Gerando referências...');
-
     let referenciasFiltradas = referencias.map(removerPalavras);
-    console.log('Referências filtradas:', referenciasFiltradas);
 
     let referenciasOrdenadas = ordenarReferencias(referenciasFiltradas);
-    console.log('Referências ordenadas:', referenciasOrdenadas);
 
-    // Cria um array de parágrafos formatados
-    const formattedParagraphs = referenciasOrdenadas.map((paragraphText) => {
-        return new Paragraph({
-            text: paragraphText,
-            alignment: AlignmentType.JUSTIFIED,
-            heading: HeadingLevel.HEADING_4,
-            indent: {
-                firstLine: '2cm'
-            },
-        });
-    });
+    const refCount = new Set();
+    const formattedParagraphs = [];
+
+    for (const element of referenciasOrdenadas) {
+        const ref = element.split('\n');
+
+        for (const el of ref) {
+            if (el.trim() !== '') {
+                const cleanedEl = el.endsWith('.') ? el.slice(0, -1) : el;
+                if (!refCount.has(cleanedEl)) {
+                    refCount.add(cleanedEl);
+                    formattedParagraphs.push(new Paragraph({
+                        text: cleanedEl.trim(),
+                        alignment: AlignmentType.JUSTIFIED,
+                        heading: HeadingLevel.HEADING_4,
+                        indent: {
+                            firstLine: '2cm'
+                        },
+                    }));
+                }
+            }
+        }
+    }
 
     // Adiciona o título da seção
     const sectionChildren = [
@@ -61,10 +69,9 @@ const gerarReferencias = async (headings, sections) => {
             spacing: {
                 after: 600,
             },
-        })
+        }),
+        ...formattedParagraphs // Adiciona os parágrafos formatados
     ];
-
-    sectionChildren.push(...formattedParagraphs);
 
     sections.push({
         properties: {
@@ -79,9 +86,8 @@ const gerarReferencias = async (headings, sections) => {
         },
         children: sectionChildren,
     });
-
-    console.log('Referências adicionadas à seção.');
 };
+
 
 async function generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho, sections) {
     console.log(`Gerando TCC: ${tipoTrabalho}`);
