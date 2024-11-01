@@ -1,35 +1,30 @@
 export default {
-    resumo: {
+    introducao: {
         number: 1,
+        title: 'Introducão'
+    },
+    justificativa: {
+        number: 2,
         title: 'Justificativa'
     },
-    introducao: {
-        number: 2,
-        title: 'Referencial Teórico'
-    },
-    revisaoLiteratura: {
+    objetivoPrincipal: {
         number: 3,
-        title: 'Delimitação do Problema'
+        title: 'Objetivo'
+    },
+    objetivoGeral: {
+        number: 3.1,
+        title: 'Objetivo Geral'
+    },
+    objetivoEspecifico: {
+        number: 3.2,
+        title: 'Objetivos Específicos'
     },
     metodologia: {
         number: 4,
-        title: 'Hipótese'
-    },
-    resultados: {
-        number: 5,
-        title: 'Objetivos'
-    },
-    discussao: {
-        number: 6,
         title: 'Metodologia'
     },
-    conclusao: {
-        number: 7,
-        title: 'Cronograma de Atividades'
-    },
     referencias: {
-        number: 8,
-        title: 'Referências Bibliográficas'
+        number: 5,
+        title: 'Referencias'
     },
 };
-    

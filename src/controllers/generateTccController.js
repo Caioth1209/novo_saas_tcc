@@ -17,6 +17,8 @@ import pkg from "file-saver";
 import { adminApp } from '../services/firebaseAdmin.js';
 import { sendAwaitTcc, sendTcc } from "../utils/sendEmail.js";
 import fs from 'fs'
+import promptsArtigo from "../data/artigoCientifico/promptsArtigo.js";
+import headingsArtigo from "../data/artigoCientifico/headingsArtigo.js";
 
 const referencias = [];
 
@@ -95,7 +97,8 @@ async function generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTra
 
     let promptsAtual;
 
-    let headings = headingsMonografia;
+    // let headings = tipoTrabalho == 'monografia' ? headingsMonografia : 'preProjeto' ? headingsPreProjeto : headingsArtigo;
+    let headings = headingsMonografia
 
     await gerarCapa(sections);
 
@@ -112,7 +115,8 @@ async function generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTra
     // if (tipoTrabalho == 'preProjeto') promptsAtual = promtpsPreProjeto;
     // else promptsAtual = promptsMonografia;
 
-    promptsAtual = promptsMonografia;
+    // promptsAtual = tipoTrabalho == 'monografia' ? promptsMonografia : 'preProjeto' ? promtpsPreProjeto : promptsArtigo;
+    promptsAtual = promptsMonografia
 
     await generateSectionsTexts(promptsAtual, headings, sections, referencias, tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho);
 
