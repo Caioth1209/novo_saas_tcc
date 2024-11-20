@@ -124,8 +124,7 @@ async function generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTra
 
     let promptsAtual;
 
-    // let headings = tipoTrabalho == 'monografia' ? headingsMonografia : 'preProjeto' ? headingsPreProjeto : headingsArtigo;
-    let headings = headingsMonografia
+    let headings = tipoTrabalho == 'monografia' ? headingsMonografia : 'preProjeto' ? headingsPreProjeto : headingsArtigo;
 
     await gerarCapa(sections);
 
@@ -139,11 +138,9 @@ async function generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTra
 
     await gerarSumario(sections, headings);
 
-    // if (tipoTrabalho == 'preProjeto') promptsAtual = promtpsPreProjeto;
-    // else promptsAtual = promptsMonografia;
-
-    // promptsAtual = tipoTrabalho == 'monografia' ? promptsMonografia : 'preProjeto' ? promtpsPreProjeto : promptsArtigo;
-    promptsAtual = promptsMonografia
+    if (tipoTrabalho == 'preProjeto') promptsAtual = promtpsPreProjeto
+    else if (tipoTrabalho == 'artigoCientifico') promptsAtual = promptsArtigo
+    else promptsAtual = promptsMonografia
 
     await generateSectionsTexts(promptsAtual, headings, sections, referencias, tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho);
 
@@ -157,7 +154,7 @@ async function generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTra
 async function generateAsyncTcc(req, res) {
 
     try {
-        const email = req.email
+        const email = req.email.toLowerCase()
 
         let sections = []
 
@@ -172,16 +169,16 @@ async function generateAsyncTcc(req, res) {
             return res.status(201).send("Dados registrados")
         }
 
-        const { tema, areaEstudo, objetivo, perguntaPesquisa, gerouTcc } = docSnapshot.data()
+        const { tema, areaEstudo, objetivo, perguntaPesquisa, gerouTcc, tipoTrabalho } = docSnapshot.data()
         // const { tema, areaEstudo, objetivo, perguntaPesquisa, gerouTcc, email } = await req.body
 
-        if (!tema || !areaEstudo || !objetivo || !perguntaPesquisa) {
+        if (!tema || !areaEstudo || !objetivo || !perguntaPesquisa || !tipoTrabalho) {
             return res.status(400).send("Dados invalidos")
         } else if (gerouTcc) {
             return res.status(400).send("Este Trabalho Ja foi gerado")
         }
 
-        generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, "monografia", sections)
+        generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho, sections)
             .then(res => {
                 console.log('TCC gerado com sucesso. Enviando email...');
                 Packer.toBlob(res).then(async (blob) => {
@@ -235,16 +232,16 @@ async function tccPromocao(req, res) {
         else if (!docSnapshot.data().pagamento) return res.status(200).json({ message: "Pagamento não realizado" })
         else if (docSnapshot.data().gerouTcc) return res.status(200).json({ message: "Este trabalho já foi gerado" })
 
-        const { tema, areaEstudo, objetivo, perguntaPesquisa } = docSnapshot.data()
+        const { tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho } = docSnapshot.data()
 
-        if (!tema || !areaEstudo || !objetivo || !perguntaPesquisa) {
+        if (!tema || !areaEstudo || !objetivo || !perguntaPesquisa || !tipoTrabalho) {
             return res.status(400).send("Dados invalidos")
         }
 
         await sendAwaitTcc(email)
 
 
-        await generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, "monografia", sections)
+        await generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho, sections)
             .then(res => {
                 console.log('TCC gerado com sucesso. Enviando email...');
                 Packer.toBlob(res).then(async (blob) => {

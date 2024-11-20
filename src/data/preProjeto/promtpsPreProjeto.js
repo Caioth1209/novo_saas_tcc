@@ -23,16 +23,8 @@ export default [
         key: "introducao2",
         get: (tema, areaEstudo, objetivo, perguntaPesquisa) => {
             return `
-            Você é um redator acadêmico especializado em formatação de Pré projetos de pesquisa. Sua tarefa é escrever a continuação da introdução de um pré-projeto na área de ${areaEstudo}, com o tema ${tema}, abordando o objetivo ${objetivo} e a pergunta de pesquisa ${perguntaPesquisa} de forma coerente com a introdução inicial. No decorrer da continuação, você deve incluir ao menos três citações pertinentes de trabalhos relevantes e recentes, conforme fornecido no arquivo anexado. As referências devem ser reais e devem incluir o nome do autor, título do trabalho e link de acesso.
-
-            Siga as seguintes diretrizes ao organizar a continuação:
-
-            Estruture o texto em no mínimo cinco parágrafos, com um total de pelo menos 1000 caracteres.
-            Use o delimitador [--] para separar cada parágrafo do texto.
-            Inclua uma seção de referências bibliográficas no final, precedida pelo marcador [r].
-            Separe as referências entre si com o marcador [--].
-            Lembre-se: é obrigatório fazer pelo menos 3 citações, contento o nome do autor e o ano do seu trabalho, no decorrer do texto e essas citações devem ter como base o arquivo anexado, se não hover citaçoes interessantes no arquivo, sempre pesquise na internet artigos REAIS que fundamentem o trabalho.
-            Certifique-se de que a escrita mantenha um tom formal e acadêmico, seguindo as normas de citação. A continuação deve expandir e aprofundar a introdução, sempre de forma coesa com o que foi previamente apresentado.
+            De continuidade a introdução, fazendo agora a conclusão da mesma. 
+            IMPORTANTE: Continue seguindo todas as diretrizes previamente ditas
             `
         },
         hasReferences: true,
@@ -71,26 +63,8 @@ export default [
         key: "justificativa2",
         get: (tema, areaEstudo, objetivo, perguntaPesquisa) => {
             return `
-            Você é um redator acadêmico especializado em redação de Pré-projetos de pesquisa. Sua tarefa é descrever detalhadamente a conclusão da justificativa que será utilizada para abordar o tema ${tema} e alcançar o objetivo ${objetivo}. A descrição deve abranger as seguintes etapas da pesquisa:
-
-            Responder à pergunta: Por que realizar este trabalho? Mostre os elementos antecedentes do problema e justifique a relevância do tema ${tema}.
-            Apresentar um argumento sobre a importância prático-teórica do estudo, explicando como ele pode contribuir tanto para o avanço teórico quanto para a prática na área de ${areaEstudo}.
-            Relacionar o tema com o objetivo da pesquisa, que é ${objetivo}, destacando as contribuições esperadas e a relevância do estudo para o campo acadêmico e sociedade.
-            Destacar a pergunta de pesquisa ${perguntaPesquisa}, justificando a necessidade de investigar essa questão específica.
-            Se possível, fazer menção a autores ou estudos importantes que reforcem a importância e relevância do tema, mostrando como o trabalho preencherá uma lacuna na literatura ou oferecerá uma nova perspectiva.
-            
-
-            Para a organização da justificativa:
-
-            Estruture o texto em no mínimo oito parágrafos, com um total de pelo menos 2000 caracteres.
-            Utilize o delimitador [--] para separar cada parágrafo.
-            A seção de referências bibliográficas deve ser adicionada ao final do texto, precedida pelo marcador [r].
-            Separe as referências entre si utilizando [--].
-            É obrigatório fazer citações ao longo do texto, contento o nome do autor e o ano do seu trabalho, sendo elas extraídas exclusivamente do arquivo anexado.
-            Garanta que a redação mantenha um tom formal e acadêmico, seguindo as normas de citação. A metodologia deve ser descrita de maneira clara, justificada e detalhada, de modo a permitir uma compreensão completa do processo de pesquisa.
-            
-            
-            PS: Essa é a continuação da justificativa, escreva o restante da parte inicial justificativa que foi solicitada anteriormente.
+            De continuidade a justificativa, fazendo agora a conclusão da mesma. 
+            IMPORTANTE: Continue seguindo todas as diretrizes previamente ditas
             `
         },
         hasReferences: true,
@@ -124,21 +98,8 @@ export default [
         key: "objetivoPrincipal2",
         get: (tema, areaEstudo, objetivo, perguntaPesquisa) => {
             return `
-            Você é um redator acadêmico especializado em elaboração de objetivos para pré-projetos de pesquisa. Sua tarefa é escrever, em português do Brasil, a seção de continuação dos objetivos de um pré-projeto acadêmico na área de ${areaEstudo}, com base no tema ${tema}. O objetivo é ${objetivo} e deve responder a seguinte pergunta: ${perguntaPesquisa}. A seção deve:
-
-            Indicar claramente o objetivo principal da pesquisa, descrevendo o que o estudo pretende alcançar em relação ao tema ${tema}.
-            Demonstrar, de forma objetiva, quais resultados se pretende alcançar, relacionando-os diretamente com o objetivo geral.
-            Para a estrutura dos objetivos:
-
-            Estruture o texto em no mínimo 5 parágrafos, com um total de pelo menos 1500 caracteres.
-            IMPORTANTE: Use [--] entre cada paragrafo para facilitar o pós processamento
-            Use uma linguagem formal e objetiva, conforme normas acadêmicas, com foco em deixar claro o propósito e as metas do estudo.
-            - **Incluir, no minimo, 5 citações de referências bibliográficas** pertinentes ao longo do texto para dar suporte à argumentação, tendo como base o arquivo anexado, se não hover citaçoes interessantes no arquivo, sempre pesquise na internet artigos REAIS que fundamentem o trabalho.
-            Adicione a seção de referências bibliográficas ao final do texto, precedida pelo marcador [r].
-            Separe as referências entre si utilizando [--].
-            Certifique-se de que os objetivos estão claramente relacionados ao tema e que eles orientem o leitor sobre o que se pretende alcançar com a pesquisa.
-
-            PS: Essa é a continuação dos objetivos, escreva o restante da parte inicial objetivos que foi solicitada anteriormente.
+            De continuidade ao objetivo pricipal, fazendo agora a conclusão da mesma. 
+            IMPORTANTE: Continue seguindo todas as diretrizes previamente ditas
             `
         },
         hasReferences: true,
