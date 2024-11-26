@@ -172,13 +172,15 @@ async function generateAsyncTcc(req, res) {
         const { tema, areaEstudo, objetivo, perguntaPesquisa, gerouTcc, tipoTrabalho } = docSnapshot.data()
         // const { tema, areaEstudo, objetivo, perguntaPesquisa, gerouTcc, email } = await req.body
 
-        if (!tema || !areaEstudo || !objetivo || !perguntaPesquisa || !tipoTrabalho) {
+        let trabalho = tipoTrabalho ? tipoTrabalho : 'monografia'
+
+        if (!tema || !areaEstudo || !objetivo || !perguntaPesquisa) {
             return res.status(400).send("Dados invalidos")
         } else if (gerouTcc) {
             return res.status(400).send("Este Trabalho Ja foi gerado")
         }
 
-        generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho, sections)
+        generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, trabalho, sections)
             .then(res => {
                 console.log('TCC gerado com sucesso. Enviando email...');
                 Packer.toBlob(res).then(async (blob) => {
@@ -226,7 +228,7 @@ async function tccPromocao(req, res) {
     let sections = []
 
     try {
-        const docSnapshot = await adminApp.firestore().collection("orders").doc(email).get()
+        const docSnapshot = await adminApp.firestore().collection("orders").doc(email.toLowerCase()).get()
 
         if (!docSnapshot.exists) return res.status(200).json({ message: "nao existe no email" })
         else if (!docSnapshot.data().pagamento) return res.status(200).json({ message: "Pagamento não realizado" })
@@ -234,14 +236,16 @@ async function tccPromocao(req, res) {
 
         const { tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho } = docSnapshot.data()
 
-        if (!tema || !areaEstudo || !objetivo || !perguntaPesquisa || !tipoTrabalho) {
+        let trabalho = tipoTrabalho ? tipoTrabalho : 'monografia'
+
+        if (!tema || !areaEstudo || !objetivo || !perguntaPesquisa) {
             return res.status(400).send("Dados invalidos")
         }
 
         await sendAwaitTcc(email)
 
 
-        await generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho, sections)
+        await generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, trabalho, sections)
             .then(res => {
                 console.log('TCC gerado com sucesso. Enviando email...');
                 Packer.toBlob(res).then(async (blob) => {
