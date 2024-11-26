@@ -124,8 +124,11 @@ async function generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTra
 
     let promptsAtual;
 
-    let headings = tipoTrabalho == 'monografia' ? headingsMonografia : 'preProjeto' ? headingsPreProjeto : headingsArtigo;
+    let headings
 
+    if (tipoTrabalho == 'preProjeto') headings = headingsPreProjeto
+    else if (tipoTrabalho == 'artigoCientifico') headings = headingsArtigo
+    else headings = headingsMonografia
     await gerarCapa(sections);
 
     await gerarFolhaDeRosto(sections);

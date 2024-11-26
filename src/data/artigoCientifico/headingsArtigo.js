@@ -1,6 +1,6 @@
 export default {
     resumo: {
-        number: '1',
+        number: 1,
         title: 'Resumo'
     },
     introducao: {
