@@ -8,3 +8,4 @@ generateRoute.post('/tcc', paymentController.webhookGuru, generateController.gen
 generateRoute.post('/promocao', generateController.tccPromocao)
 
 export default generateRoute
+
