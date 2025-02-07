@@ -13,7 +13,7 @@ export async function getResult(prompt) {
         model: "gpt-4o-mini",
         messages: [{ role: "user", content: prompt }],
         temperature: 0.2,
-        max_tokens: 4096,
+        max_tokens: 16384,
         top_p: 1,
         frequency_penalty: 0.2,
         presence_penalty: 0,
