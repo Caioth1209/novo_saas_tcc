@@ -157,30 +157,19 @@ async function generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, tipoTra
 async function generateAsyncTcc(req, res) {
 
     try {
-        const email = req.email.toLowerCase()
+        const email = req.body.email
 
         let sections = []
 
         const docSnapshot = await adminApp.firestore().collection("orders").doc(email).get()
 
-        if (!docSnapshot.exists) {
-            await adminApp.firestore().collection("orders").doc(email).set({
-                pagamento: true,
-                gerouTcc: false,
-                created_at: new Date()
-            })
-            return res.status(201).send("Dados registrados")
-        }
-
-        const { tema, areaEstudo, objetivo, perguntaPesquisa, gerouTcc, tipoTrabalho } = docSnapshot.data()
+        const { tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho } = docSnapshot.data()
         // const { tema, areaEstudo, objetivo, perguntaPesquisa, gerouTcc, email } = await req.body
 
         let trabalho = tipoTrabalho ? tipoTrabalho : 'monografia'
 
         if (!tema || !areaEstudo || !objetivo || !perguntaPesquisa) {
             return res.status(400).send("Dados invalidos")
-        } else if (gerouTcc) {
-            return res.status(400).send("Este Trabalho Ja foi gerado")
         }
 
         generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, trabalho, sections)
@@ -202,13 +191,20 @@ async function generateAsyncTcc(req, res) {
                     // })
                     // // fim da area de teste
 
-                    pkg.saveAs(blob, filePath);
-                    await sendTcc(blob, email)
+
+                    let qntdCreditos = docSnapshot.data().qntdCreditos
+
+                    qntdCreditos = qntdCreditos <= 0 ? 0 : qntdCreditos - 1
+
                     await adminApp.firestore().collection("orders").doc(email).set({
                         ...docSnapshot.data(),
-                        pagamento: false,
-                        gerouTcc: true
+                        qntdCreditos
                     })
+                    
+                    pkg.saveAs(blob, filePath);
+                    await sendTcc(blob, email)
+
+                    
                     sections = []
                 });
             })
@@ -225,57 +221,8 @@ async function generateAsyncTcc(req, res) {
     }
 }
 
-async function tccPromocao(req, res) {
-    const { email } = req.body
-
-    let sections = []
-
-    try {
-        const docSnapshot = await adminApp.firestore().collection("orders").doc(email.toLowerCase()).get()
-
-        if (!docSnapshot.exists) return res.status(200).json({ message: "nao existe no email" })
-        else if (!docSnapshot.data().pagamento) return res.status(200).json({ message: "Pagamento não realizado" })
-        else if (docSnapshot.data().gerouTcc) return res.status(200).json({ message: "Este trabalho já foi gerado" })
-
-        const { tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho } = docSnapshot.data()
-
-        let trabalho = tipoTrabalho ? tipoTrabalho : 'monografia'
-
-        if (!tema || !areaEstudo || !objetivo || !perguntaPesquisa) {
-            return res.status(400).send("Dados invalidos")
-        }
-
-        await sendAwaitTcc(email)
 
 
-        await generateTcc(tema, areaEstudo, objetivo, perguntaPesquisa, trabalho, sections)
-            .then(res => {
-                console.log('TCC gerado com sucesso. Enviando email...');
-                Packer.toBlob(res).then(async (blob) => {
-                    pkg.saveAs(blob, `./tccturbo.docx`);
-                    await sendTcc(blob, email)
-                    await adminApp.firestore().collection("orders").doc(email).set({
-                        ...docSnapshot.data(),
-                        pagamento: false,
-                        gerouTcc: true
-                    })
-                    sections = []
-                });
-            })
-            .catch(err => {
-                console.error('Erro ao gerar TCC:', err);
-            });
-
-        res.status(200).send({ message: 'ok' });
-    } catch (err) {
-        console.log("Erro ao gerar o tcc: ", err)
-        res.status(500).send(err)
-    }
-
-
-
-}
-
-const generateController = { generateAsyncTcc, tccPromocao };
+const generateController = { generateAsyncTcc };
 
 export default generateController;
