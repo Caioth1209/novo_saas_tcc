@@ -17,7 +17,7 @@ const adminApp = admin.initializeApp({
     "universe_domain": process.env.FIREBASE_ADMIN_UNIVERSE_DOMAIN,
   }
   ),
-  databaseURL: "https://tcc-automatico-default-rtdb.firebaseio.com"
+  databaseURL: "https://tcc-turbo-389af-default-rtdb.firebaseio.com"
 });
 
 export { adminApp }; // Exportando o adminApp

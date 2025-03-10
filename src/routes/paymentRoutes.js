@@ -5,7 +5,5 @@ const generateRoute = Router()
 
 // generateRoute.post('/tcc', generateController.generateAsyncTcc); // -- usado para testar em localhost
 generateRoute.post('/tcc', paymentController.webhookGuru, generateController.generateAsyncTcc);
-generateRoute.post('/promocao', generateController.tccPromocao)
 
 export default generateRoute
-
