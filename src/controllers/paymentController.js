@@ -47,7 +47,7 @@ async function webhookGuru(req, res, next) {
             if (confirmed_at != null) {
 
                 const { email } = req.body.contact;
-                req.email = email;
+                req.body.email = email;
                 updateSheetPayment(email, res)
                 next();  // Continue para a próxima função
             } else {
