@@ -60,17 +60,6 @@ export default [
         isContinuation: false
     },
     {
-        key: "justificativa2",
-        get: (tema, areaEstudo, objetivo, perguntaPesquisa) => {
-            return `
-            De continuidade a justificativa, fazendo agora a conclusão da mesma. 
-            IMPORTANTE: Continue seguindo todas as diretrizes previamente ditas
-            `
-        },
-        hasReferences: true,
-        isContinuation: true
-    },
-    {
         key: "objetivoPrincipal",
         get: (tema, areaEstudo, objetivo, perguntaPesquisa) => {
             return `
@@ -95,17 +84,6 @@ export default [
         isContinuation: false
     },
     {
-        key: "objetivoPrincipal2",
-        get: (tema, areaEstudo, objetivo, perguntaPesquisa) => {
-            return `
-            De continuidade ao objetivo pricipal, fazendo agora a conclusão da mesma. 
-            IMPORTANTE: Continue seguindo todas as diretrizes previamente ditas
-            `
-        },
-        hasReferences: true,
-        isContinuation: true
-    },
-    {
         key: "objetivoGeral",
         get: (tema, areaEstudo, objetivo) => {
             return `Você é um redator acadêmico especializado em elaboração de objetivos gerais para pré-projetos de pesquisa. Sua tarefa é escrever, em português do Brasil, o objetivo geral de um pré-projeto acadêmico na área de ${areaEstudo}, com base no tema ${tema}, que tem como objetivo ${objetivo}. O objetivo geral deve:
@@ -126,27 +104,7 @@ export default [
         hasReferences: false,
         isContinuation: false
     },
-    {
-        key: "objetivoGeral2",
-        get: (tema, areaEstudo, objetivo) => {
-            return `Você é um redator acadêmico especializado em elaboração de objetivos gerais para pré-projetos de pesquisa. Sua tarefa é escrever, em português do Brasil, a continuação do objetivo geral de um pré-projeto acadêmico na área de ${areaEstudo}, com base no tema ${tema}, que tem como objetivo ${objetivo}. O objetivo geral deve:
-
-            Proporcionar uma visão geral e abrangente do tema ${tema} e do objetivo ${objetivo}, destacando o que se pretende realizar com a pesquisa.
-            Ser escrito de forma objetiva, clara e direta, utilizando um único parágrafo.
-            Iniciar com um verbo no infinitivo que descreva o propósito principal da pesquisa, como: analisar, investigar, identificar, compreender, explorar, entre outros, seguido de uma breve descrição do foco central da pesquisa.
-            Estrutura do objetivo:
-
-            Estruture o texto em no mínimo 5 parágrafos, com um total de pelo menos 1500 caracteres.
-            O texto deve ser conciso, preciso e refletir o propósito maior da pesquisa em relação ao tema proposto.
-            Utilize o delimitador [--] para indicar o final do objetivo geral.
-            Certifique-se de que o objetivo geral ofereça uma visão completa do tema, fornecendo uma ideia clara do que a pesquisa pretende alcançar e como ela contribuirá para a área de estudo.
-            
-            PS: Essa é a continuação do objetivo geral, escreva o restante da parte inicial objetivo geral que foi solicitada anteriormente.
-            `
-        },
-        hasReferences: false,
-        isContinuation: true
-    },
+    
     {
         key: "objetivoEspecifico",
         get: (tema, areaEstudo, objetivo) => {
@@ -168,27 +126,7 @@ export default [
         hasReferences: false,
         isContinuation: false
     },
-    {
-        key: "objetivoEspecifico2",
-        get: (tema, areaEstudo, objetivo) => {
-            return `Você é um redator acadêmico especializado em elaboração de objetivos específicos para pré-projetos de pesquisa. Sua tarefa é escrever, em português do Brasil, a continuação dos objetivos específicos de um pré-projeto acadêmico na área de ${areaEstudo}, com base no tema ${tema}, e o objetivo ${objetivo}. Os objetivos específicos devem:
-
-            Detalhar de forma clara e instrumental o que será realizado no estudo, sendo mais concretos e práticos do que o objetivo geral.
-            Coadunar com o objetivo geral, servindo como um desdobramento dele, indicando os passos concretos que o pesquisador seguirá para alcançar o resultado desejado.
-            Ser redigidos com verbos no infinitivo, como: analisar, identificar, verificar, explorar, avaliar, compreender, entre outros.
-            Orientar o pesquisador na coleta de dados e informações, sendo direcionados para ações mensuráveis e específicas.
-            Estrutura dos objetivos específicos:
-
-            Crie uma lista de 3 a 5 objetivos específicos que sejam detalhados, práticos e diretamente ligados ao tema e ao objetivo geral.
-            Utilize o delimitador [--] para separar cada um dos objetivos específicos.
-            Certifique-se de que os objetivos específicos ofereçam uma visão detalhada e concreta do que será realizado, facilitando o direcionamento da pesquisa
-            
-            PS: Essa é a continuação dos objetivos específicos, escreva o restante da parte inicial objetivos específicos que foi solicitada anteriormente.
-            `
-        },
-        hasReferences: false,
-        isContinuation: true
-    },
+   
     {
         key: "metodologia",
         get: (tema, areaEstudo, objetivo, perguntaPesquisa) => {

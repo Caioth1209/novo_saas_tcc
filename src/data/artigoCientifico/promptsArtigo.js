@@ -34,17 +34,6 @@ export default [
     isContinuation: false
   },
   {
-    key: "introducao2",
-    get: (tema, areaEstudo, objetivo, perguntaPesquisa) => {
-      return `   
-        De continuidade a introdução, fazendo agora a conclusão da mesma. 
-        IMPORTANTE: Continue seguindo todas as diretrizes previamente ditas
-        `
-    },
-    hasReferences: true,
-    isContinuation: true
-  },
-  {
     key: "desenvolvimento",
     get: (tema, areaEstudo, objetivo, perguntaPesquisa) => {
       return `
@@ -76,17 +65,6 @@ export default [
     },
     hasReferences: true,
     isContinuation: false
-  },
-  {
-    key: "desenvolvimento2",
-    get: (tema, areaEstudo, objetivo, perguntaPesquisa) => {
-      return `
-      De continuidade ao desenvolvimento do trabalho, fazendo agora a conclusão da mesma. 
-        IMPORTANTE: Continue seguindo todas as diretrizes previamente ditas
-      `
-    },
-    hasReferences: true,
-    isContinuation: true
   },
   {
     key: "revisaoLiteratura",
@@ -122,17 +100,6 @@ export default [
     isContinuation: false
   },
   {
-    key: "revisaoLiteratura2",
-    get: (tema, areaEstudo, objetivo, perguntaPesquisa) => {
-      return `
-      De continuidade a revisão de literatura do trabalho, fazendo agora a conclusão da mesma. 
-        IMPORTANTE: Continue seguindo todas as diretrizes previamente ditas
-      `
-    },
-    hasReferences: true,
-    isContinuation: true
-  },
-  {
     key: "metodologia",
     get: (tema, areaEstudo, objetivo, perguntaPesquisa) => {
       return `
@@ -163,17 +130,6 @@ export default [
     },
     hasReferences: true,
     isContinuation: false
-  },
-  {
-    key: "metodologia2",
-    get: (tema, areaEstudo, objetivo, perguntaPesquisa) => {
-      return `
-        De continuidade a metodologia do trabalho, fazendo agora a conclusão da mesma. 
-        IMPORTANTE: Continue seguindo todas as diretrizes previamente ditas
-        `
-    },
-    hasReferences: true,
-    isContinuation: true
   },
   {
     key: "resultados",
@@ -246,17 +202,6 @@ export default [
       return `
       De continuidade a discussão do trabalho, ainda não faça a conclusão, apenas de continuidade sem concluir. 
       IMPORTANTE: Continue seguindo todas as diretrizes previamente ditas 
-      `
-    },
-    hasReferences: true,
-    isContinuation: true
-  },
-  {
-    key: "discussao3",
-    get: (tema, areaEstudo, objetivo, perguntaPesquisa) => {
-      return `
-      De continuidade a discussão do trabalho, fazendo agora a conclusão da mesma. 
-      IMPORTANTE: Continue seguindo todas as diretrizes previamente ditas
       `
     },
     hasReferences: true,

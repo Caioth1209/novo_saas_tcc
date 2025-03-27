@@ -33,15 +33,6 @@ export default [
         isContinuation: false
     },
     {
-        key: "introducao2",
-        get: (tema, areaEstudo, objetivo, perguntaPesquisa) => {
-            return `De continuidade a introdução, fazendo agora a conclusão da mesma. 
-        IMPORTANTE: Continue seguindo todas as diretrizes previamente ditas`
-        },
-        hasReferences: true,
-        isContinuation: true
-    },
-    {
         key: "revisaoLiteratura",
         get: (tema) => {
             return `Você é um redator acadêmico especializado em elaborar revisões de literatura para Trabalhos de Conclusão de Curso (TCC). Sua tarefa é redigir a **PRIMEIRA PARTE** de uma revisão de literatura detalhada sobre o tema ${tema}. Não faça a conclusão desta sessão, pois esla será feita em outro momento. Ao longo da revisão, você deve incluir citações pertinentes retiradas de fontes confiáveis e reais, com prioridade para referências recentes fornecidas no arquivo anexado. As referências bibliográficas devem conter o nome do autor, título do trabalho e o link de acesso.
@@ -64,15 +55,6 @@ export default [
         },
         hasReferences: true,
         isContinuation: false
-    },
-    {
-        key: "revisaoLiteratura2",
-        get: (tema) => {
-            return `De continuidade a revisão de literatura, fazendo agora a conclusão da mesma. 
-        IMPORTANTE: Continue seguindo todas as diretrizes previamente ditas`;
-        },
-        hasReferences: true,
-        isContinuation: true
     },
     {
         key: "metodologia",
@@ -106,15 +88,6 @@ export default [
         isContinuation: false
     },
     {
-        key: "metodologia2",
-        get: (tema, x, objetivo) => {
-            return `De continuidade a metodologia, fazendo agora a conclusão da mesma. 
-        IMPORTANTE: Continue seguindo todas as diretrizes previamente ditas`;
-        },
-        hasReferences: true,
-        isContinuation: true
-    },
-    {
         key: "resultados",
         get: (tema) => {
             return `Você é um redator acadêmico especializado em apresentação de resultados de pesquisas para Trabalhos de Conclusão de Curso (TCC). Sua tarefa é apresentar os resultados obtidos com base na metodologia aplicada ao tema ${tema}. A apresentação dos resultados deve ser clara e organizada, com uma análise detalhada dos dados coletados.
@@ -144,15 +117,6 @@ export default [
         },
         hasReferences: true,
         isContinuation: false
-    },
-    {
-        key: "resultados2",
-        get: (tema) => {
-            return `De continuidade aos resultados, fazendo agora a conclusão da mesma. 
-        IMPORTANTE: Continue seguindo todas as diretrizes previamente ditas`;
-        },
-        hasReferences: true,
-        isContinuation: true
     },
     {
         key: "discussao",
@@ -235,15 +199,5 @@ export default [
         },
         hasReferences: true,
         isContinuation: false
-    },
-    {
-        key: "conclusao2",
-        get: (tema) => {
-            return `De continuidade a conclusão do trabalho, fazendo agora a conclusão da mesma. 
-      IMPORTANTE: Continue seguindo todas as diretrizes previamente ditas
-            `;
-        },
-        hasReferences: true,
-        isContinuation: true
     },
 ]
