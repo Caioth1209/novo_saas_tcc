@@ -1,5 +1,5 @@
 import sheetsApi from "../services/sheetsApi.js";
-
+import {adminApp} from "../services/firebaseAdmin.js";
 async function updateSheetPayment(email, res) {
     try {
         // Primeiro, vamos encontrar a linha que contém o email
