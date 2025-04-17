@@ -95,6 +95,7 @@ async function webhookGuru2(req, res) {
                         pergunta: perguntaPesquisa,
                     })
                 });
+                await adminApp.firestore().collection("orders").doc(email).update({ gerando: true })
                 return res.status(200).send('Pagamento aprovado e gerando TCC...');
             } else {
                 return res.status(200).send('Data de confirmação não encontrada.');
