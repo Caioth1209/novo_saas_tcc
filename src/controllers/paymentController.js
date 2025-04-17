@@ -64,6 +64,52 @@ async function webhookGuru(req, res, next) {
     }
 }
 
-const generateController = { webhookGuru };
+async function webhookGuru2(req, res) {
+    try {
+        const { status } = req.body;
+
+        if (status == "approved") {
+            const dates = req.body.dates;
+
+            const { confirmed_at } = dates;
+
+            if (confirmed_at != null) {
+
+                const { email } = req.body.contact;
+                updateSheetPayment(email, res)
+                const docSnapshot = await adminApp.firestore().collection("orders").doc(email).get()
+
+                const { tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho } = docSnapshot.data()
+
+                await fetch(`https://caiobapps.app.n8n.cloud/webhook-test/gerarTurbo`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        email,
+                        tema,
+                        tipo: tipoTrabalho,
+                        areaEstudo,
+                        objetivo,
+                        pergunta: perguntaPesquisa,
+                    })
+                });
+                return res.status(200).send('Pagamento aprovado e gerando TCC...');
+            } else {
+                return res.status(200).send('Data de confirmação não encontrada.');
+            }
+        } else {
+            return res.status(200).send('Pagamento não aprovado.');
+        }
+
+
+    } catch (error) {
+        console.error('Erro no webhook:', error);
+        return res.status(200).send('Erro no processamento do webhook.');
+    }
+}
+
+const generateController = { webhookGuru, webhookGuru2 };
 
 export default generateController;
