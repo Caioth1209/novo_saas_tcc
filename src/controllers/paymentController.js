@@ -81,7 +81,7 @@ async function webhookGuru2(req, res) {
 
                 const { tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho } = docSnapshot.data()
 
-                await fetch(`https://caiobapps.app.n8n.cloud/webhook-test/gerarTurbo`, {
+                await fetch(`https://caiobapps.app.n8n.cloud/webhook/gerarTurbo`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
