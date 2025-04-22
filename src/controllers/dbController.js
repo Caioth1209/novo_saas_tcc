@@ -19,6 +19,21 @@ async function diminuiCredito(req, res) {
     }
 }
 
-const dbController = { diminuiCredito }
+async function isGerando(req, res) {
+    try {
+        const { email } = req.body;
+
+        const docSnapshot = await adminApp.firestore().collection("orders").doc(email).get()
+
+        const gerando = docSnapshot.data().gerando || false
+
+        res.status(201).send(gerando)
+    } catch (err) {
+        console.log(err.message);
+        return res.status(200).send(err.message)
+    }
+}
+
+const dbController = { diminuiCredito, isGerando }
 
 export default dbController
