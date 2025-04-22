@@ -66,7 +66,7 @@ async function webhookGuru(req, res, next) {
 
 async function webhookGuru2(req, res) {
     try {
-        const { status } = req.body;
+        const { status, request_id } = req.body;
 
         if (status == "approved") {
             const dates = req.body.dates;
@@ -76,26 +76,32 @@ async function webhookGuru2(req, res) {
             if (confirmed_at != null) {
 
                 const { email } = req.body.contact;
-                updateSheetPayment(email, res)
+                
                 const docSnapshot = await adminApp.firestore().collection("orders").doc(email).get()
 
-                const { tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho } = docSnapshot.data()
+                const { tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho, request_id: request_id_db } = docSnapshot.data()
+
+                if (request_id == request_id_db) {
+                    return res.status(200).send('Pagamento já foi processado...');
+                }
+
+                updateSheetPayment(email, res)
 
                 await fetch(`https://caiobapps.app.n8n.cloud/webhook/gerarTurbo`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ 
-                        email,
-                        tema,
-                        tipo: tipoTrabalho,
-                        areaEstudo,
-                        objetivo,
-                        pergunta: perguntaPesquisa,
-                    })
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    email,
+                    tema,
+                    tipo: tipoTrabalho,
+                    areaEstudo,
+                    objetivo,
+                    pergunta: perguntaPesquisa,
+                })
                 });
-                await adminApp.firestore().collection("orders").doc(email).update({ gerando: true })
+                await adminApp.firestore().collection("orders").doc(email).update({ gerando: true, request_id })
                 return res.status(200).send('Pagamento aprovado e gerando TCC...');
             } else {
                 return res.status(200).send('Data de confirmação não encontrada.');
