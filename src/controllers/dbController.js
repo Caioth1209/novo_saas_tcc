@@ -32,8 +32,21 @@ async function isGerando(req, res) {
         console.log(err.message);
         return res.status(200).send(err.message)
     }
+}   
+
+async function setGerando(req, res) {
+    try {
+        const { email } = req.body;
+
+        await adminApp.firestore().collection("orders").doc(email).update({ gerando: true })
+
+        res.status(201).send('Ok')
+    } catch (err) {
+        console.log(err.message);
+        return res.status(200).send(err.message)
+    }
 }
 
-const dbController = { diminuiCredito, isGerando }
+const dbController = { diminuiCredito, isGerando, setGerando }
 
 export default dbController

@@ -5,4 +5,5 @@ const dbRoutes = Router()
 
 dbRoutes.post('/diminuiCredito', dbController.diminuiCredito)
 dbRoutes.post('/isGerando', dbController.isGerando)
+dbRoutes.post('/setGerando', dbController.setGerando)
 export default dbRoutes
