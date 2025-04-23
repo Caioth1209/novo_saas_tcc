@@ -81,29 +81,27 @@ async function webhookGuru2(req, res) {
 
                 const { tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho, confirmed_at: confirmed_at_db } = docSnapshot.data()
 
-                if(confirmed_at_db == null){
-                    updateSheetPayment(email, res)
-
-                    await fetch(`https://caiobapps.app.n8n.cloud/webhook/gerarTurbo`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ 
-                            email,
-                            tema,
-                            tipo: tipoTrabalho,
-                            areaEstudo,
-                            objetivo,
-                            pergunta: perguntaPesquisa,
-                        })
-                    });
-                    await adminApp.firestore().collection("orders").doc(email).update({ gerando: true, confirmed_at })
-                } else {
-                    if (confirmed_at == confirmed_at_db) {
-                        return res.status(200).send('Pagamento já foi processado...');
-                    }
+                if (confirmed_at == confirmed_at_db) {
+                    return res.status(200).send('Pagamento já foi processado...');
                 }
+
+                updateSheetPayment(email, res)
+
+                await fetch(`https://caiobapps.app.n8n.cloud/webhook/gerarTurbo`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        email,
+                        tema,
+                        tipo: tipoTrabalho,
+                        areaEstudo,
+                        objetivo,
+                        pergunta: perguntaPesquisa,
+                    })
+                });
+                await adminApp.firestore().collection("orders").doc(email).update({ gerando: true, confirmed_at })
 
                 
                 return res.status(200).send('Pagamento aprovado e gerando TCC...');
