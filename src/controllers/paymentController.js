@@ -68,6 +68,8 @@ async function webhookGuru2(req, res) {
     try {
         const { status, request_id } = req.body;
 
+        console.log(status, request_id)
+
         if (status == "approved") {
             const dates = req.body.dates;
 
@@ -86,17 +88,17 @@ async function webhookGuru2(req, res) {
 
                     await fetch(`https://caiobapps.app.n8n.cloud/webhook/gerarTurbo`, {
                         method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ 
-                        email,
-                        tema,
-                        tipo: tipoTrabalho,
-                        areaEstudo,
-                        objetivo,
-                        pergunta: perguntaPesquisa,
-                    })
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ 
+                            email,
+                            tema,
+                            tipo: tipoTrabalho,
+                            areaEstudo,
+                            objetivo,
+                            pergunta: perguntaPesquisa,
+                        })
                     });
                     await adminApp.firestore().collection("orders").doc(email).update({ gerando: true, request_id })
                 } else {
