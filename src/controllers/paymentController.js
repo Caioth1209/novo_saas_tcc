@@ -81,27 +81,31 @@ async function webhookGuru2(req, res) {
 
                 const { tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho, request_id: request_id_db } = docSnapshot.data()
 
-                if (request_id == request_id_db) {
-                    return res.status(200).send('Pagamento já foi processado...');
+                if(request_id_db == null){
+                    updateSheetPayment(email, res)
+
+                    await fetch(`https://caiobapps.app.n8n.cloud/webhook/gerarTurbo`, {
+                        method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        email,
+                        tema,
+                        tipo: tipoTrabalho,
+                        areaEstudo,
+                        objetivo,
+                        pergunta: perguntaPesquisa,
+                    })
+                    });
+                    await adminApp.firestore().collection("orders").doc(email).update({ gerando: true, request_id })
+                } else {
+                    if (request_id == request_id_db) {
+                        return res.status(200).send('Pagamento já foi processado...');
+                    }
                 }
 
-                updateSheetPayment(email, res)
-
-                await fetch(`https://caiobapps.app.n8n.cloud/webhook/gerarTurbo`, {
-                    method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ 
-                    email,
-                    tema,
-                    tipo: tipoTrabalho,
-                    areaEstudo,
-                    objetivo,
-                    pergunta: perguntaPesquisa,
-                })
-                });
-                await adminApp.firestore().collection("orders").doc(email).update({ gerando: true, request_id })
+                
                 return res.status(200).send('Pagamento aprovado e gerando TCC...');
             } else {
                 return res.status(200).send('Data de confirmação não encontrada.');
