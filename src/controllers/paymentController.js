@@ -66,9 +66,7 @@ async function webhookGuru(req, res, next) {
 
 async function webhookGuru2(req, res) {
     try {
-        const { status, request_id } = req.body;
-
-        console.log(status, request_id)
+        const { status } = req.body;
 
         if (status == "approved") {
             const dates = req.body.dates;
@@ -81,9 +79,9 @@ async function webhookGuru2(req, res) {
                 
                 const docSnapshot = await adminApp.firestore().collection("orders").doc(email).get()
 
-                const { tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho, request_id: request_id_db } = docSnapshot.data()
+                const { tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho, confirmed_at: confirmed_at_db } = docSnapshot.data()
 
-                if(request_id_db == null){
+                if(confirmed_at_db == null){
                     updateSheetPayment(email, res)
 
                     await fetch(`https://caiobapps.app.n8n.cloud/webhook/gerarTurbo`, {
@@ -100,9 +98,9 @@ async function webhookGuru2(req, res) {
                             pergunta: perguntaPesquisa,
                         })
                     });
-                    await adminApp.firestore().collection("orders").doc(email).update({ gerando: true, request_id })
+                    await adminApp.firestore().collection("orders").doc(email).update({ gerando: true, confirmed_at })
                 } else {
-                    if (request_id == request_id_db) {
+                    if (confirmed_at == confirmed_at_db) {
                         return res.status(200).send('Pagamento já foi processado...');
                     }
                 }
