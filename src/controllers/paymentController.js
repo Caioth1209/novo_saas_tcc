@@ -33,6 +33,8 @@ async function updateSheetPayment(email, res) {
     } catch (err) {
         console.log(err.message);
     }
+
+    return true
 }
 
 async function webhookGuru(req, res, next) {
@@ -85,7 +87,7 @@ async function webhookGuru2(req, res) {
                     return res.status(200).send('Pagamento já foi processado...');
                 }
 
-                updateSheetPayment(email, res)
+                await updateSheetPayment(email, res)
 
                 await fetch(`https://caiobapps.app.n8n.cloud/webhook/gerarTurbo`, {
                     method: 'POST',
