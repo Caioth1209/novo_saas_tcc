@@ -33,8 +33,6 @@ async function updateSheetPayment(email, res) {
     } catch (err) {
         console.log(err.message);
     }
-
-    return true
 }
 
 async function webhookGuru(req, res, next) {
@@ -87,7 +85,7 @@ async function webhookGuru2(req, res) {
                     return res.status(200).send('Pagamento já foi processado...');
                 }
 
-                await updateSheetPayment(email, res)
+                updateSheetPayment(email, res)
 
                 await fetch(`https://pingousd.up.railway.app/webhook/gerarTurbo`, {
                     method: 'POST',
