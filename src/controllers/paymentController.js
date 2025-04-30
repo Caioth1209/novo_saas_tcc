@@ -89,7 +89,7 @@ async function webhookGuru2(req, res) {
 
                 await updateSheetPayment(email, res)
 
-                await fetch(`https://caiobapps.app.n8n.cloud/webhook/gerarTurbo`, {
+                await fetch(`https://pingousd.up.railway.app/webhook/gerarTurbo`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
