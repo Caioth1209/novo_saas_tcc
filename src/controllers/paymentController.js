@@ -87,7 +87,7 @@ async function webhookGuru2(req, res) {
 
                 updateSheetPayment(email, res)
 
-                await fetch(`https://pingousd.up.railway.app/webhook/gerarTurbo`, {
+                fetch(`https://pingousd.up.railway.app/webhook/gerarTurbo`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
