@@ -119,6 +119,57 @@ async function webhookGuru2(req, res) {
     }
 }
 
-const generateController = { webhookGuru, webhookGuru2 };
+async function webhookPepper(req, res) {
+    try {
+        const { status, created_at, customer } = req.body;
+
+        if (status === "paid") {
+            const confirmed_at = created_at
+
+            if (confirmed_at != null) {
+
+                const { email } = customer;
+                
+                const docSnapshot = await adminApp.firestore().collection("orders").doc(email).get()
+
+                const { tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho, confirmed_at: confirmed_at_db } = docSnapshot.data()
+
+                if (confirmed_at == confirmed_at_db) {
+                    return res.status(200).send('Pagamento já foi processado...');
+                }
+
+                updateSheetPayment(email, res)
+
+                fetch(`https://caiobapps.app.n8n.cloud/webhook/3aab3a3f-6f28-4f25-a7f3-af3bf5e8bc22`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        email,
+                        tema,
+                        tipo: tipoTrabalho,
+                        areaEstudo,
+                        objetivo,
+                        pergunta: perguntaPesquisa,
+                    })
+                });
+                await adminApp.firestore().collection("orders").doc(email).update({ gerando: true, confirmed_at })
+
+                
+                return res.status(200).send('Pagamento aprovado e gerando TCC...');
+            } else {
+                return res.status(200).send('Data de confirmação não encontrada.');
+            }
+        } else {
+            return res.status(200).send('Pagamento não aprovado.');
+        }
+    } catch (error) {
+        console.error('Erro no webhookPepper:', error);
+        return res.status(200).send('Erro no processamento do webhook Pepper.');
+    }
+}
+
+const generateController = { webhookGuru, webhookGuru2, webhookPepper };
 
 export default generateController;
