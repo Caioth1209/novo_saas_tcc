@@ -134,11 +134,22 @@ async function webhookPepper(req, res) {
 
                 const { tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho, confirmed_at: confirmed_at_db } = docSnapshot.data()
 
+                if(!docSnapshot.exists) {
+                    fetch(`https://caiobapps.app.n8n.cloud/webhook/enviarAvisoTurbo`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ 
+                            email
+                        })
+                    });
+                    return res.status(200).send('Envio de email');
+                }
+
                 if (confirmed_at == confirmed_at_db) {
                     return res.status(200).send('Pagamento já foi processado...');
                 }
-
-                updateSheetPayment(email, res)
 
                 fetch(`https://caiobapps.app.n8n.cloud/webhook/3aab3a3f-6f28-4f25-a7f3-af3bf5e8bc22`, {
                     method: 'POST',
