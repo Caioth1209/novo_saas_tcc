@@ -132,8 +132,6 @@ async function webhookPepper(req, res) {
                 
                 const docSnapshot = await adminApp.firestore().collection("orders").doc(email).get()
 
-                const { tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho, confirmed_at: confirmed_at_db } = docSnapshot.data()
-
                 if(!docSnapshot.exists) {
                     fetch(`https://caiobapps.app.n8n.cloud/webhook/enviarAvisoTurbo`, {
                         method: 'POST',
@@ -146,6 +144,8 @@ async function webhookPepper(req, res) {
                     });
                     return res.status(200).send('Envio de email');
                 }
+
+                const { tema, areaEstudo, objetivo, perguntaPesquisa, tipoTrabalho, confirmed_at: confirmed_at_db } = docSnapshot.data()
 
                 if (confirmed_at == confirmed_at_db) {
                     return res.status(200).send('Pagamento já foi processado...');
